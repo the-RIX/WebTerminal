@@ -14,12 +14,15 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://github.com/the-RIX/WebTerminal">Joe Mama!</a>
         </h1>
 
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
+        </p>
+        <p className={styles.description}>
+          <a href='./terminal.tsx'>Hier geht es zum Terminal.</a>
         </p>
 
         <div className={styles.grid}>
