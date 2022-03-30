@@ -14,15 +14,12 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://github.com/the-RIX/WebTerminal">Joe Mama!</a>
+          <a href="/terminal.tsx"><Image src="/piggy.png" height={300} width={300} alt='Nö'></Image></a>
         </h1>
 
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
-        </p>
-        <p className={styles.description}>
-          <a href='./terminal.tsx'>Hier geht es zum Terminal.</a>
         </p>
 
         <div className={styles.grid}>
@@ -58,13 +55,13 @@ const Home: NextPage = () => {
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/the-RIX/WebTerminal"
           target="_blank"
           rel="noopener noreferrer"
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+            <Image src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
