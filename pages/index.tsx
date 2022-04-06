@@ -61,7 +61,7 @@ const Home: NextPage = () => {
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub Logo" width={72} height={16} />
+            <Image src="/public/vercel.svg" alt="GitHub Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
