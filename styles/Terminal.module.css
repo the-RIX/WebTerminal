@@ -1,0 +1,22 @@
+.history {
+    color: white;
+}
+
+.history_line {
+    padding: 0;
+    margin: 0;
+}
+
+.input {
+    padding-bottom: 0;
+    background-color: black;
+    color: pink;
+}
+
+.input_field {
+    background-color: black;
+    border: none;
+    color: pink;
+    padding-right: 0;
+
+}
