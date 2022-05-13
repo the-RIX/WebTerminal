@@ -1,6 +1,7 @@
 .history {
     color: white;
     white-space: pre-line;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .history_line {
@@ -11,13 +12,14 @@
 .input {
     padding-bottom: 0;
     background-color: black;
-    color: pink;
+    color: cyan;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .input_field {
     background-color: black;
     border: none;
-    color: pink;
+    color: white;
     padding-right: 0;
-
+    font-family: 'Courier New', Courier, monospace;
 }
