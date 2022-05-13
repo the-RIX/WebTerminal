@@ -24,6 +24,9 @@ class Project extends File {
 class FileEngine {
     cat(workingDirectory: Directory[], target: string) {
         const currentDirectory: Directory = workingDirectory[workingDirectory.length - 1]
+        if (target == undefined){
+            throw "USAGE: cat [filename]"
+        }
         for (const file of currentDirectory.children) {
             if (file.name == target) {
                 if (file instanceof Directory) {
@@ -93,7 +96,7 @@ class FileEngine {
 const testProjectOne = new Project("p1", "this is test project no. 1")
 const testProjectTwo = new Project("p2", "this is test project no. 2")
 const testDirectoryDeep = new Directory("d1", [testProjectOne, testProjectTwo])
-const testDirectoryRoot = new Directory("root", [testDirectoryDeep, testProjectOne])
+const testDirectoryRoot = new Directory("", [testDirectoryDeep, testProjectOne])
 const testRoot = testDirectoryRoot
 
 

@@ -6,7 +6,7 @@ import CommandHandler from "../components/terminal/CommandHandler"
 import FileEngine, {test, Directory} from "../components/terminal/FileEngine";
 
 const Terminal: NextPage = () => {
-    const [history, setHistory]: [string[], Function] = useState(["hello", "world"])
+    const [history, setHistory]: [string[], Function] = useState(["Hello \n world. :D"])
     const [workingDirectory, setWorkingDirectory]: [Directory[], Function] = useState([test])
 
     //TODO: this should probably be done with useEffect and a command state
