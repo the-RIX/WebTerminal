@@ -1,5 +1,6 @@
 .history {
     color: white;
+    white-space: pre-line;
 }
 
 .history_line {
