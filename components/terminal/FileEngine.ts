@@ -1,4 +1,5 @@
 class File {
+    // Class of File type.
     name: string
     constructor(name: string) {
         this.name = name
@@ -6,14 +7,17 @@ class File {
 }
 
 class Directory extends File {
-    children: File[]
+    // Directories are also of type File. 
+    // Holds list of all children directories and other files
+    children: File[]  // list of pointers to children
     constructor(name: string, children: File[]) {
         super(name)
         this.children = children
     }
 }
 
-class Project extends File {
+class TextFile extends File {
+    // Example text File which isn't a directory
     description: string
     constructor(name: string, description: string) {
         super(name)
@@ -32,9 +36,9 @@ class FileEngine {
                 if (file instanceof Directory) {
                     throw "\'" + target + "\' is a Directory and can't be read"
                 }
-                if (file instanceof Project) {
-                    let project: Project = file as Project
-                    return target + ": " + project.description
+                if (file instanceof TextFile) {
+                    let txt: TextFile = file as TextFile
+                    return target + ": " + txt.description
                 }
             }
         }
@@ -42,10 +46,10 @@ class FileEngine {
     }
 
     cd(workingDirectory: Directory[], target: string) {
-        //TODO: longer paths: "a/b"
+        //TODO: longer paths: "a/b" and "cd /"
         let result: Directory[] = [...workingDirectory]
         console.log("also here: " + result)
-        if (target == ".") {
+        if (target == "." ) { //|| target == workingDirectory
             return result
         }
         if (target == "..") {
@@ -93,9 +97,13 @@ class FileEngine {
 }
 
 
-const testProjectOne = new Project("p1", "this is test project no. 1")
-const testProjectTwo = new Project("p2", "this is test project no. 2")
-const testDirectoryDeep = new Directory("d1", [testProjectOne, testProjectTwo])
+const testProjectOne = new TextFile("p1", "this is test project no. 1")
+const testProjectTwo = new TextFile("p2", "this is test project no. 2")
+
+const testProjectThree = new TextFile("p3","Dummy Project File #3")
+const testDirectoryDeeper = new Directory("d2", [testProjectThree])
+
+const testDirectoryDeep = new Directory("d1", [testDirectoryDeeper,testProjectOne, testProjectTwo])
 const testDirectoryRoot = new Directory("", [testDirectoryDeep, testProjectOne])
 const testRoot = testDirectoryRoot
 
