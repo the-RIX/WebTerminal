@@ -16,14 +16,27 @@ class Directory extends File {
     }
 }
 
-class TextFile extends File {
+class ProjectFile extends File {
     // Example text File which isn't a directory
+    description: string
+    links: string[]
+    persons: PersonFile[]
+    constructor(name: string, description: string, links: string[], persons: PersonFile[]) {
+        super(name)
+        this.description = description
+        this.links = links
+        this.persons = persons
+    }
+}
+
+class PersonFile extends File {
     description: string
     constructor(name: string, description: string) {
         super(name)
         this.description = description
     }
 }
+
 
 class FileEngine {
     cat(workingDirectory: Directory[], target: string) {
@@ -36,9 +49,8 @@ class FileEngine {
                 if (file instanceof Directory) {
                     throw "\'" + target + "\' is a Directory and can't be read"
                 }
-                if (file instanceof TextFile) {
-                    let txt: TextFile = file as TextFile
-                    return target + ": " + txt.description
+                if (file instanceof ProjectFile || file instanceof PersonFile) {
+                    return file.name + ": " + file.description
                 }
             }
         }
@@ -46,6 +58,7 @@ class FileEngine {
     }
 
     cd(workingDirectory: Directory[], target: string) {
+        console.log("in cd:" + target)
         //TODO: longer paths: "a/b" and "cd /"
         let result: Directory[] = [...workingDirectory]
         console.log("also here: " + result)
@@ -78,7 +91,7 @@ class FileEngine {
         let children: File[] = directory.children
         children.forEach(
             (file: File) => {
-                result += file.name + " __ \n"
+                result += file.name + "\n"
             }
         )
         return result
@@ -96,18 +109,18 @@ class FileEngine {
     }
 }
 
+const msa: PersonFile = new PersonFile("MSA", "confused computer science student")
+const rx: PersonFile = new PersonFile("RX", "i am confusion")
 
-const testProjectOne = new TextFile("p1", "this is test project no. 1")
-const testProjectTwo = new TextFile("p2", "this is test project no. 2")
+const rsHangManLinks: string[] = ["https://github.com/0MSA0/RSHangMan"]
+const rsHangManFile: ProjectFile = new ProjectFile("RS_HangMan", "discord Hangman Bot (offline)", rsHangManLinks, [msa, rx])
 
-const testProjectThree = new TextFile("p3","Dummy Project File #3")
-const testDirectoryDeeper = new Directory("d2", [testProjectThree])
+const projectDirectory: Directory = new Directory("projects", [rsHangManFile])
+const personDirectory: Directory = new Directory("persons", [msa, rx])
 
-const testDirectoryDeep = new Directory("d1", [testDirectoryDeeper,testProjectOne, testProjectTwo])
-const testDirectoryRoot = new Directory("", [testDirectoryDeep, testProjectOne])
-const testRoot = testDirectoryRoot
+const rootDirectory: Directory = new Directory("root", [projectDirectory, personDirectory])
 
 
 export default FileEngine.prototype
 export {File, Directory}
-export {testRoot as test}
+export {rootDirectory as test}

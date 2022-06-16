@@ -1,10 +1,10 @@
-.history {
+.display {
     color: white;
     white-space: pre-line;
     font-family: 'Courier New', Courier, monospace;
 }
 
-.history_line {
+.display_line {
     padding: 0;
     margin: 0;
 }

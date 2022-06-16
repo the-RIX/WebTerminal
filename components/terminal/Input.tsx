@@ -1,24 +1,42 @@
-import React, {FC, useState} from "react"
+import React, {FC, useContext, useState} from "react"
 import styles from "../../styles/Terminal.module.css"
+import CommandHandler from "./CommandHandler";
+import FileEngine, {Directory} from "./FileEngine";
+import contentContext from "../../contexts/ContentContext";
+import WorkingDirectoryContext from "../../contexts/WorkingDirectoryContext";
 
-type ComponentProps = {
-    workingDirectoryStr: string
-    func: Function
+type ContentProps = {
+    content: string[]
+    setContent: Function
 }
 
-const Input: FC<ComponentProps> = (props: ComponentProps) => {
+type WorkingDirectoryProps = {
+    workingDirectory: Directory[]
+    setWorkingDirectory: Function
+}
+
+
+const Input: FC = () => {
     const [command, setCommand]: [string, Function] = useState("")
 
+    //TODO: typing
+    // @ts-ignore
+    const contentProps: ContentProps = useContext(contentContext)
+    //TODO: typing
+    // @ts-ignore
+    const workingDirectoryProps: WorkingDirectoryProps = useContext(WorkingDirectoryContext)
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        props.func(command)
+        console.log("in Input: " + contentProps.content.constructor.name)
+        CommandHandler.handleCommand(command, contentProps, workingDirectoryProps)
         setCommand("")
     }
 
+    const workingDirectoryStr: string = FileEngine.pwd(workingDirectoryProps.workingDirectory)
     return (
         <div className={styles.input}>
             <form onSubmit={handleSubmit}>
-                {props.workingDirectoryStr + ">"} <input className={styles.input_field} type="text" value={command} onChange={event => setCommand(event.target.value)}/>
+                {workingDirectoryStr + ">"} <input className={styles.input_field} type="text" value={command} onChange={event => setCommand(event.target.value)}/>
             </form>
         </div>
     )
