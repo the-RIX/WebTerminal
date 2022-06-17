@@ -27,7 +27,6 @@ const Input: FC = () => {
     const workingDirectoryProps: WorkingDirectoryProps = useContext(WorkingDirectoryContext)
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        console.log("in Input: " + contentProps.content.constructor.name)
         CommandHandler.handleCommand(command, contentProps, workingDirectoryProps)
         setCommand("")
     }

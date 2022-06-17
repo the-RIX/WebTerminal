@@ -19,11 +19,11 @@ class CommandHandler {
 
         const commandArray: string[]= command.split(" ")
         let newContent = [...content]
+        newContent.push(FileEngine.pwd(workingDirectoryProps.workingDirectory) + "> " + command)
+        setContent(newContent)
 
         switch (commandArray[0]) {
             case "":
-                newContent.push("")
-                setContent(newContent)
                 return
             case "cat":
                 this.handleCat(commandArray.slice(1), contentProps, workingDirectoryProps)
