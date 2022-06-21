@@ -19,6 +19,12 @@ type WorkingDirectoryProps = {
 const Input: FC = () => {
     const [command, setCommand]: [string, Function] = useState("")
 
+    const setFocus = (inputLine: HTMLInputElement | null) => {
+        if (inputLine != null) {
+            inputLine.focus()
+        }
+    }
+
     //TODO: typing
     // @ts-ignore
     const contentProps: ContentProps = useContext(contentContext)
@@ -35,7 +41,16 @@ const Input: FC = () => {
     return (
         <div className={styles.input}>
             <form onSubmit={handleSubmit}>
-                {workingDirectoryStr + ">"} <input className={styles.input_field} type="text" value={command} onChange={event => setCommand(event.target.value)}/>
+                {workingDirectoryStr + ">"}
+                <input className={styles.input_field}
+                       type="text"
+                       value={command}
+                       onChange={event => setCommand(event.target.value)}
+                       ref={(x: HTMLInputElement | null) => {setFocus(x)}}
+                       onBlur={(x) => {
+                           setFocus(x.target)
+                       }}
+                       />
             </form>
         </div>
     )
