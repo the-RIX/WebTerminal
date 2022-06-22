@@ -7,6 +7,7 @@ import ContentContext from "../contexts/ContentContext";
 import WorkingDirectoryContext from "../contexts/WorkingDirectoryContext";
 
 const Terminal: NextPage = () => {
+
     const [content, setContent]: [string[], Function] = useState(["Hello \n world. :)"])
     const [workingDirectory, setWorkingDirectory]: [Directory[], Function] = useState([test])
 

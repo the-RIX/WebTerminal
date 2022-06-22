@@ -14,7 +14,6 @@ const Display: FC = () => {
     const contentProps: ContentProps = useContext(ContentContext)
     const content: string[] = contentProps.content
 
-    console.log("in Display: " + content.constructor.name)
     return (
         <div className={styles.display}>
             {content.map(

@@ -16,7 +16,7 @@ class CommandHandler {
         const content: string[] = contentProps.content
         const setContent: Function = contentProps.setContent
         const workingDirectory: Directory[] = workingDirectoryProps.workingDirectory
-
+        // TODO: cut of leading spaces
         const commandArray: string[]= command.split(" ")
         let newContent = [...content]
         newContent.push(FileEngine.pwd(workingDirectoryProps.workingDirectory) + "> " + command)

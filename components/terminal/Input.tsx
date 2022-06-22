@@ -46,9 +46,9 @@ const Input: FC = () => {
                        type="text"
                        value={command}
                        onChange={event => setCommand(event.target.value)}
-                       ref={(x: HTMLInputElement | null) => {setFocus(x)}}
-                       onBlur={(x) => {
-                           setFocus(x.target)
+                       ref={(inputLine : HTMLInputElement | null) => {setFocus(inputLine)}}
+                       onBlur={(inputLine) => {
+                           setFocus(inputLine.target)
                        }}
                        />
             </form>
