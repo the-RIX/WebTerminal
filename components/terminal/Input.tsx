@@ -48,7 +48,9 @@ const Input: FC = () => {
                        onChange={event => setCommand(event.target.value)}
                        ref={(inputLine : HTMLInputElement | null) => {setFocus(inputLine)}}
                        onBlur={(inputLine) => {
-                           setFocus(inputLine.target)
+                           setTimeout(() => setFocus(inputLine.target), 1)
+                           //setFocus(inputLine.target)
+                           console.log("blur")
                        }}
                        />
             </form>
