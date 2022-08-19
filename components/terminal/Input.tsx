@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from "react"
+import React, {FC, useContext, useRef, useState} from "react"
 import styles from "../../styles/Terminal.module.css"
 import CommandHandler from "./CommandHandler";
 import FileEngine, {Directory} from "./FileEngine";
@@ -17,9 +17,20 @@ type WorkingDirectoryProps = {
 
 
 const Input: FC = () => {
+    const labelRef = useRef<HTMLLabelElement>(null)
     const [command, setCommand]: [string, Function] = useState("")
 
-    const setFocus = (inputLine: HTMLInputElement | null) => {
+    const onChange = (inputLine: HTMLTextAreaElement | null ) => {
+        if (inputLine) {
+            let inputLineText : string = inputLine.value
+            //inputLineText = inputLineText.substring(workingDirectoryStr.length + 2)
+            setCommand(inputLineText)
+            inputLine.style.height = inputLine.style.lineHeight
+            inputLine.style.height = inputLine.scrollHeight + "px"
+        }
+    }
+    // @ts-ignore
+    const setFocus = (inputLine) => {
         if (inputLine != null) {
             inputLine.focus()
         }
@@ -40,19 +51,30 @@ const Input: FC = () => {
     const workingDirectoryStr: string = FileEngine.pwd(workingDirectoryProps.workingDirectory)
     return (
         <div className={styles.input}>
-            <form onSubmit={handleSubmit}>
-                {workingDirectoryStr + ">"}
-                <input className={styles.input_field}
-                       type="text"
-                       value={command}
-                       onChange={event => setCommand(event.target.value)}
-                       ref={(inputLine : HTMLInputElement | null) => {setFocus(inputLine)}}
-                       onBlur={(inputLine) => {
-                           setTimeout(() => setFocus(inputLine.target), 1)
-                           //setFocus(inputLine.target)
-                           console.log("blur")
-                       }}
-                       />
+            <form>
+                <label
+                    ref={labelRef}
+                    style={{position: "absolute", marginTop: 3}}
+                >
+                    {workingDirectoryStr + ": "}
+                </label>
+                <textarea
+                    onKeyDown={(key) => {
+                        if (key.key == "Enter") {
+                            handleSubmit(key)
+                        }
+                    }}
+                    className={styles.input_field}
+                    value={command}
+                    //todo: fix that labelRef is not instant available when page is loaded and a interims size is used
+                    style={{textIndent: labelRef.current ? labelRef.current.offsetWidth : workingDirectoryStr.length * 12}}
+                    spellCheck={false}
+                    onChange={event => onChange(event.target)}
+                    ref={(inputLine : HTMLTextAreaElement | null) => {setFocus(inputLine)}}
+                    onBlur={(inputLine) => {
+                       setTimeout(() => setFocus(inputLine.target), 1)
+                    }}
+                />
             </form>
         </div>
     )

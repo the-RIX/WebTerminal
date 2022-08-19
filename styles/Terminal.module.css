@@ -11,6 +11,7 @@
 
 .input {
     padding-bottom: 0;
+    width: 100%;
     background-color: black;
     color: cyan;
     font-family: 'Courier New', Courier, monospace;
@@ -18,7 +19,9 @@
 
 .input_field {
     background-color: black;
+    width: 100%;
     border: none;
+    resize: none;
     color: white;
     font-family: 'Courier New', Courier, monospace;
 }
