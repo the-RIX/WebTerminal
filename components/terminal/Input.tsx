@@ -47,6 +47,27 @@ const Input: FC = () => {
         CommandHandler.handleCommand(command, contentProps, workingDirectoryProps)
         setCommand("")
     }
+    const autoComplete = () => {
+        let currentCommandArray: string[] = command.split(' ')
+        let ask = currentCommandArray[currentCommandArray.length - 1]
+        let currentWorkingDirectory: Directory = workingDirectoryProps.workingDirectory[workingDirectoryProps.workingDirectory.length - 1]
+        let similar: string|null = null
+        for (let option of currentWorkingDirectory.children){
+            if (option.name.startsWith(ask)) {
+                if (!similar) {
+                    similar = option.name
+                }
+                else {
+                    similar = null
+                    break
+                }
+            }
+        }
+        if (similar) {
+            currentCommandArray[currentCommandArray.length - 1] = similar
+            setCommand(currentCommandArray.join(' '))
+        }
+    }
 
     const workingDirectoryStr: string = FileEngine.pwd(workingDirectoryProps.workingDirectory)
     return (
@@ -62,6 +83,9 @@ const Input: FC = () => {
                     onKeyDown={(key) => {
                         if (key.key == "Enter") {
                             handleSubmit(key)
+                        } else if (key.key == "Tab") {
+                            key.preventDefault()
+                            autoComplete()
                         }
                     }}
                     className={styles.input_field}
