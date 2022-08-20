@@ -4,6 +4,7 @@ import CommandHandler from "./CommandHandler";
 import FileEngine, {Directory} from "./FileEngine";
 import contentContext from "../../contexts/ContentContext";
 import WorkingDirectoryContext from "../../contexts/WorkingDirectoryContext";
+import HistoryContext from "../../contexts/HistoryContext"
 
 type ContentProps = {
     content: string[]
@@ -15,10 +16,15 @@ type WorkingDirectoryProps = {
     setWorkingDirectory: Function
 }
 
+type HistoryProps = {
+    history: string[]
+    setHistory: Function
+}
 
 const Input: FC = () => {
     const labelRef = useRef<HTMLLabelElement>(null)
     const [command, setCommand]: [string, Function] = useState("")
+    const [historyIndex, setHistoryIndex]: [number, Function] = useState(0)
 
     const onChange = (inputLine: HTMLTextAreaElement | null ) => {
         if (inputLine) {
@@ -36,18 +42,30 @@ const Input: FC = () => {
         }
     }
 
+
+
     //TODO: typing
     // @ts-ignore
     const contentProps: ContentProps = useContext(contentContext)
     //TODO: typing
     // @ts-ignore
     const workingDirectoryProps: WorkingDirectoryProps = useContext(WorkingDirectoryContext)
+    //@ts-ignore
+    const historyProps: HistoryProps = useContext(HistoryContext)
+
     const handleSubmit = (event: any) => {
         event.preventDefault()
+        if (command != "" && (historyProps.history.length == 0 || command != historyProps.history[historyProps.history.length - 1])) {
+            let newHistory = historyProps.history
+            newHistory.push(command)
+            historyProps.setHistory(newHistory)
+        }
+        setHistoryIndex(0)
         CommandHandler.handleCommand(command, contentProps, workingDirectoryProps)
         setCommand("")
     }
-    const autoComplete = () => {
+
+    const handleAutoComplete = () => {
         let currentCommandArray: string[] = command.split(' ')
         let ask = currentCommandArray[currentCommandArray.length - 1]
         let currentWorkingDirectory: Directory = workingDirectoryProps.workingDirectory[workingDirectoryProps.workingDirectory.length - 1]
@@ -69,6 +87,18 @@ const Input: FC = () => {
         }
     }
 
+    const handleHistoryCall = (key: any) => {
+        let history: string[] = historyProps.history
+        let newHistoryIndex: number = historyIndex
+        if (key.key == "ArrowUp") {
+            newHistoryIndex = historyIndex < history.length ? historyIndex + 1 : 0
+        } else if (key.key == "ArrowDown") {
+            newHistoryIndex = historyIndex > 0 ? historyIndex - 1 : 0
+        }
+        setHistoryIndex(newHistoryIndex)
+        setCommand(newHistoryIndex != 0 ? history[history.length - newHistoryIndex] : "")
+    }
+
     const workingDirectoryStr: string = FileEngine.pwd(workingDirectoryProps.workingDirectory)
     return (
         <div className={styles.input}>
@@ -81,11 +111,16 @@ const Input: FC = () => {
                 </label>
                 <textarea
                     onKeyDown={(key) => {
+                        console.log(key.key)
                         if (key.key == "Enter") {
                             handleSubmit(key)
                         } else if (key.key == "Tab") {
                             key.preventDefault()
-                            autoComplete()
+                            handleAutoComplete()
+                        }
+                        else if (key.key == "ArrowUp" || key.key == "ArrowDown") {
+                            key.preventDefault()
+                            handleHistoryCall(key)
                         }
                     }}
                     className={styles.input_field}
